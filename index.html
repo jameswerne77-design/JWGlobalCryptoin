@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JW Global Crypto — Private Capital, Held to Account</title>
+<meta name="description" content="JW Global Crypto is a forming digital-asset advisory and portfolio platform. View your holdings with a self-custody wallet connection. No funds held. No promises of return.">
+
+<!-- Fonts: Cormorant Garamond (display) + Inter (body) + JetBrains Mono (data/utility) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#070707;
+    --panel:#0f0f10;
+    --panel-raised:#141415;
+    --gold:#c9a14a;
+    --gold-bright:#e0bd6e;
+    --silver:#e8e8ea;
+    --steel:#7a8088;
+    --bronze:#3a2e1a;
+    --hairline:rgba(201,161,74,0.18);
+    --danger:#b8542f;
+    --radius:2px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--void);
+    color:var(--silver);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:500;
+    letter-spacing:0.01em;
+    color:var(--silver);
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+  }
+
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ===== Focus visibility ===== */
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:1px solid var(--gold-bright);
+    outline-offset:3px;
+  }
+
+  /* ===== Arc motif (signature element) ===== */
+  .arc-divider{
+    width:100%;
+    height:80px;
+    position:relative;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .arc-divider svg{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    top:-560px;
+    width:1400px;
+    height:640px;
+  }
+
+  /* ===== Header ===== */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    background:rgba(7,7,7,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color 0.3s ease, background 0.3s ease;
+  }
+  header.scrolled{
+    border-bottom-color:var(--hairline);
+  }
+  .nav-inner{
+    max-width:1180px;
+    margin:0 auto;
+    padding:18px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand img{height:40px; width:40px; object-fit:contain;}
+  .brand-text{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.25rem;
+    letter-spacing:0.04em;
+    line-height:1.1;
+  }
+  .brand-text small{
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-size:0.6rem;
+    letter-spacing:0.24em;
+    color:var(--gold);
+    margin-top:2px;
+  }
+  nav ul{
+    display:flex;
+    gap:40px;
+    list-style:none;
+  }
+  nav a{
+    font-size:0.82rem;
+    letter-spacing:0.05em;
+    color:var(--steel);
+    transition:color 0.2s ease;
+    position:relative;
+  }
+  nav a:hover{color:var(--silver);}
+  .nav-cta{
+    padding:11px 22px;
+    border:1px solid var(--gold);
+    color:var(--gold-bright);
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .nav-cta:hover{background:var(--gold); color:var(--void);}
+  .menu-toggle{display:none; background:none; border:none; color:var(--silver); font-size:1.5rem; cursor:pointer;}
+
+  @media (max-width:880px){
+    nav ul{display:none;}
+    .nav-cta{display:none;}
+    .menu-toggle{display:block;}
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:140px 32px 100px;
+    overflow:hidden;
+  }
+  .hero-globe{
+    position:absolute;
+    top:50%; left:50%;
+    width:1100px; height:1100px;
+    transform:translate(-50%,-50%);
+    opacity:0.05;
+    background:radial-gradient(circle at center, var(--gold) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-ring{
+    position:absolute;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-50%);
+    border:1px solid var(--hairline);
+    border-radius:50%;
+    pointer-events:none;
+  }
+  .hero-ring.inner{
+    width:680px; height:680px;
+    animation:rotate-slow 90s linear infinite;
+  }
+  @keyframes rotate-slow{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+
+  .hero img.hero-logo{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+    margin-bottom:36px;
+    opacity:0;
+    animation:fade-up 1s ease forwards 0.1s;
+  }
+  .hero .eyebrow{
+    opacity:0;
+    animation:fade-up 1s ease forwards 0.3s;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 6vw, 4.6rem);
+    font-weight:500;
+    line-height:1.08;
+    max-width:880px;
+    margin:22px 0 26px;
+    opacity:0;
+    animation:fade-up 1s ease forwards 0.5s;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--gold);
+  }
+  .hero p.lede{
+    font-size:1.1rem;
+    color:var(--steel);
+    max-width:580px;
+    margin-bottom:44px;
+    opacity:0;
+    animation:fade-up 1s ease forwards 0.7s;
+  }
+  .hero-actions{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    justify-content:center;
+    opacity:0;
+    animation:fade-up 1s ease forwards 0.9s;
+  }
+  @keyframes fade-up{
+    from{opacity:0; transform:translateY(18px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .btn-primary, .btn-secondary{
+    padding:15px 30px;
+    font-size:0.85rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    border-radius:var(--radius);
+    cursor:pointer;
+    transition:all 0.25s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold));
+    color:var(--void);
+    border:1px solid var(--gold);
+    font-weight:600;
+  }
+  .btn-primary:hover{
+    box-shadow:0 0 0 1px var(--gold-bright), 0 8px 28px rgba(201,161,74,0.22);
+    transform:translateY(-1px);
+  }
+  .btn-secondary{
+    background:transparent;
+    color:var(--silver);
+    border:1px solid rgba(232,232,234,0.22);
+  }
+  .btn-secondary:hover{border-color:var(--silver);}
+
+  .hero-status{
+    margin-top:56px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 18px;
+    border:1px solid var(--hairline);
+    border-radius:30px;
+    font-size:0.74rem;
+    color:var(--steel);
+    opacity:0;
+    animation:fade-up 1s ease forwards 1.1s;
+  }
+  .hero-status .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 8px var(--gold);
+  }
+
+  /* ===== Section shells ===== */
+  section{
+    position:relative;
+    padding:120px 0;
+  }
+  .section-head{
+    max-width:640px;
+    margin-bottom:64px;
+  }
+  .section-head .eyebrow{margin-bottom:18px; display:block;}
+  .section-head h2{
+    font-size:clamp(2rem, 4vw, 2.9rem);
+    line-height:1.15;
+  }
+  .section-head p{
+    color:var(--steel);
+    margin-top:18px;
+    font-size:1.02rem;
+    max-width:560px;
+  }
+
+  /* ===== About ===== */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:start;
+  }
+  .about-grid .lead-text{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.5rem;
+    font-style:italic;
+    color:var(--silver);
+    line-height:1.5;
+    margin-bottom:28px;
+  }
+  .about-grid p{color:var(--steel); margin-bottom:18px; font-size:0.98rem;}
+  .about-stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--hairline);
+    border:1px solid var(--hairline);
+    margin-top:40px;
+  }
+  .about-stat{
+    background:var(--panel);
+    padding:28px 24px;
+  }
+  .about-stat .num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:2.4rem;
+    color:var(--gold);
+    line-height:1;
+  }
+  .about-stat .label{
+    font-size:0.76rem;
+    color:var(--steel);
+    margin-top:8px;
+    letter-spacing:0.03em;
+  }
+
+  /* ===== Values / Services ===== */
+  .values-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--hairline);
+    border:1px solid var(--hairline);
+  }
+  .value-card{
+    background:var(--panel);
+    padding:44px 36px;
+    transition:background 0.3s ease;
+  }
+  .value-card:hover{background:var(--panel-raised);}
+  .value-card .glyph{
+    width:42px; height:42px;
+    margin-bottom:26px;
+    color:var(--gold);
+  }
+  .value-card h3{
+    font-size:1.4rem;
+    margin-bottom:12px;
+  }
+  .value-card p{
+    color:var(--steel);
+    font-size:0.92rem;
+  }
+
+  @media (max-width:880px){
+    .about-grid, .values-grid{grid-template-columns:1fr;}
+  }
+
+  /* ===== Wallet / Portfolio Panel (signature element) ===== */
+  .ledger-section{
+    background:var(--panel);
+    border-top:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+  }
+  .ledger-plate{
+    position:relative;
+    border:1px solid var(--hairline);
+    background:
+      radial-gradient(ellipse at top, rgba(201,161,74,0.06), transparent 60%),
+      var(--panel-raised);
+    padding:0;
+    overflow:hidden;
+  }
+  .ledger-plate::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .ledger-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:32px 40px;
+    border-bottom:1px solid var(--hairline);
+    flex-wrap:wrap;
+    gap:18px;
+  }
+  .ledger-header h3{
+    font-size:1.5rem;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .ledger-header h3 .ring{
+    width:8px; height:8px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+  }
+  .ledger-sub{color:var(--steel); font-size:0.85rem; margin-top:4px;}
+
+  .wallet-status-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 16px;
+    border:1px solid var(--hairline);
+    font-size:0.74rem;
+    color:var(--steel);
+    letter-spacing:0.03em;
+  }
+  .wallet-status-badge .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--steel);
+  }
+  .wallet-status-badge.connected .dot{background:var(--gold); box-shadow:0 0 8px var(--gold);}
+  .wallet-status-badge.connected{color:var(--gold-bright); border-color:var(--hairline);}
+
+  .ledger-body{padding:40px;}
+
+  .connect-prompt{
+    text-align:center;
+    padding:60px 20px;
+  }
+  .connect-prompt .icon-ring{
+    width:72px; height:72px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 28px;
+  }
+  .connect-prompt h4{font-size:1.6rem; margin-bottom:12px;}
+  .connect-prompt p{color:var(--steel); max-width:420px; margin:0 auto 32px; font-size:0.92rem;}
+
+  .holdings-table{display:none;}
+  .holdings-table.active{display:block;}
+  .connect-prompt.hidden{display:none;}
+
+  .holdings-row{
+    display:grid;
+    grid-template-columns:auto 1fr auto auto;
+    gap:24px;
+    align-items:center;
+    padding:18px 0;
+    border-bottom:1px solid var(--hairline);
+  }
+  .holdings-row:last-child{border-bottom:none;}
+  .holdings-row .asset-icon{
+    width:36px; height:36px;
+    border-radius:50%;
+    background:var(--bronze);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.7rem;
+    color:var(--gold-bright);
+    font-weight:600;
+  }
+  .holdings-row .asset-name{font-size:0.95rem;}
+  .holdings-row .asset-ticker{color:var(--steel); font-size:0.78rem; margin-top:2px;}
+  .holdings-row .asset-amount{text-align:right; font-size:0.92rem;}
+  .holdings-row .asset-value{text-align:right; color:var(--steel); font-size:0.85rem;}
+
+  .wallet-address-display{
+    margin-top:28px;
+    padding:16px 20px;
+    background:var(--panel);
+    border:1px solid var(--hairline);
+    font-size:0.82rem;
+    color:var(--steel);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .wallet-address-display .addr{color:var(--gold-bright);}
+  .copy-btn{
+    background:none;
+    border:1px solid var(--hairline);
+    color:var(--steel);
+    font-size:0.72rem;
+    padding:6px 12px;
+    cursor:pointer;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  .copy-btn:hover{color:var(--silver); border-color:var(--steel);}
+
+  .ledger-footnote{
+    margin-top:32px;
+    padding-top:24px;
+    border-top:1px solid var(--hairline);
+    font-size:0.78rem;
+    color:var(--steel);
+    line-height:1.7;
+  }
+  .ledger-footnote strong{color:var(--gold-bright); font-weight:600;}
+
+  /* ===== Security ===== */
+  .security-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--hairline);
+    border:1px solid var(--hairline);
+  }
+  .security-item{
+    background:var(--panel);
+    padding:36px 38px;
+    display:flex;
+    gap:22px;
+  }
+  .security-item .num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.7rem;
+    color:var(--gold);
+    min-width:38px;
+  }
+  .security-item h4{font-size:1.15rem; margin-bottom:8px;}
+  .security-item p{color:var(--steel); font-size:0.88rem;}
+
+  @media (max-width:880px){
+    .security-grid{grid-template-columns:1fr;}
+  }
+
+  /* ===== Disclosure banner ===== */
+  .disclosure-banner{
+    background:var(--panel-raised);
+    border:1px solid var(--hairline);
+    padding:36px 40px;
+    display:flex;
+    gap:24px;
+    align-items:flex-start;
+  }
+  .disclosure-banner .icon{
+    color:var(--gold);
+    min-width:24px;
+    margin-top:2px;
+  }
+  .disclosure-banner h4{
+    font-size:1.05rem;
+    color:var(--gold-bright);
+    margin-bottom:10px;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    letter-spacing:0.02em;
+  }
+  .disclosure-banner p{
+    color:var(--steel);
+    font-size:0.88rem;
+    line-height:1.75;
+  }
+
+  /* ===== Process / How it works ===== */
+  .process-list{
+    border-top:1px solid var(--hairline);
+  }
+  .process-row{
+    display:grid;
+    grid-template-columns:100px 1fr;
+    gap:32px;
+    padding:36px 0;
+    border-bottom:1px solid var(--hairline);
+    align-items:baseline;
+  }
+  .process-row .step-label{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1rem;
+    color:var(--gold);
+    letter-spacing:0.04em;
+  }
+  .process-row h4{font-size:1.3rem; margin-bottom:8px;}
+  .process-row p{color:var(--steel); font-size:0.92rem; max-width:560px;}
+
+  /* ===== Contact / CTA ===== */
+  .cta-section{
+    text-align:center;
+    padding:140px 0;
+    position:relative;
+  }
+  .cta-section h2{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    max-width:680px;
+    margin:0 auto 24px;
+  }
+  .cta-section p{
+    color:var(--steel);
+    max-width:480px;
+    margin:0 auto 40px;
+  }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--hairline);
+    border:1px solid var(--hairline);
+    margin-top:64px;
+    text-align:left;
+  }
+  .contact-item{background:var(--panel); padding:32px;}
+  .contact-item .label{font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;}
+  .contact-item .value{font-size:1rem;}
+
+  @media (max-width:880px){
+    .contact-grid{grid-template-columns:1fr;}
+  }
+
+  /* ===== Footer ===== */
+  footer{
+    border-top:1px solid var(--hairline);
+    padding:64px 0 40px;
+  }
+  .footer-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:40px;
+    margin-bottom:48px;
+  }
+  .footer-brand{display:flex; align-items:center; gap:12px;}
+  .footer-brand img{height:34px; width:34px; object-fit:contain;}
+  .footer-cols{display:flex; gap:64px; flex-wrap:wrap;}
+  .footer-col h5{
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:18px;
+  }
+  .footer-col a, .footer-col p{
+    display:block;
+    color:var(--steel);
+    font-size:0.86rem;
+    margin-bottom:10px;
+  }
+  .footer-col a:hover{color:var(--silver);}
+  .footer-legal{
+    border-top:1px solid var(--hairline);
+    padding-top:28px;
+    color:var(--steel);
+    font-size:0.78rem;
+    line-height:1.8;
+  }
+  .footer-legal p{margin-bottom:10px;}
+
+  /* ===== Modal (wallet connect) ===== */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(7,7,7,0.85);
+    backdrop-filter:blur(4px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    padding:24px;
+  }
+  .modal-overlay.active{display:flex;}
+  .modal-box{
+    background:var(--panel-raised);
+    border:1px solid var(--gold);
+    max-width:420px;
+    width:100%;
+    padding:36px;
+    position:relative;
+  }
+  .modal-close{
+    position:absolute;
+    top:18px; right:18px;
+    background:none;
+    border:none;
+    color:var(--steel);
+    font-size:1.2rem;
+    cursor:pointer;
+  }
+  .modal-close:hover{color:var(--silver);}
+  .modal-box h4{font-size:1.5rem; margin-bottom:8px;}
+  .modal-box .modal-sub{color:var(--steel); font-size:0.85rem; margin-bottom:28px;}
+  .wallet-option{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px 18px;
+    border:1px solid var(--hairline);
+    margin-bottom:12px;
+    cursor:pointer;
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .wallet-option:hover{border-color:var(--gold); background:rgba(201,161,74,0.05);}
+  .wallet-option .wi{
+    width:32px; height:32px;
+    border-radius:8px;
+    background:var(--bronze);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.8rem;
+    color:var(--gold-bright);
+  }
+  .wallet-option .wname{font-size:0.92rem;}
+  .modal-note{
+    margin-top:20px;
+    font-size:0.76rem;
+    color:var(--steel);
+    line-height:1.6;
+  }
+
+  /* scroll reveal */
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  ::selection{background:var(--gold); color:var(--void);}
+
+  /* scrollbar */
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--void);}
+  ::-webkit-scrollbar-thumb{background:var(--bronze); border:2px solid var(--void);}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header id="siteHeader">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <img src="assets/logo.png" alt="JW Global Crypto logo">
+      <span class="brand-text">JW Global<small>CRYPTO</small></span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a href="#portfolio" class="nav-cta">Connect Wallet</a>
+    <button class="menu-toggle" aria-label="Open menu">☰</button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-globe"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring inner"></div>
+
+  <img src="assets/logo.png" alt="JW Global Crypto" class="hero-logo">
+  <span class="eyebrow">Digital Asset Advisory &amp; Portfolio Intelligence</span>
+  <h1>Capital deserves <em>clarity,</em><br>not custody you can't see.</h1>
+  <p class="lede">JW Global Crypto is a digital-asset advisory built on one rule: we never hold what we can't show you. Connect your own wallet and see your portfolio in full — nothing routed through us, nothing hidden behind a dashboard.</p>
+
+  <div class="hero-actions">
+    <a href="#portfolio" class="btn-primary">
+      <span>View Your Portfolio</span>
+    </a>
+    <a href="#about" class="btn-secondary">
+      <span>Our Approach</span>
+    </a>
+  </div>
+
+  <div class="hero-status">
+    <span class="dot"></span>
+    <span>Forming entity — pre-licensing stage — full status under Disclosures</span>
+  </div>
+</section>
+
+<div class="arc-divider" aria-hidden="true">
+  <svg viewBox="0 0 1400 640" fill="none">
+    <circle cx="700" cy="600" r="560" stroke="#c9a14a" stroke-opacity="0.25" stroke-width="1"/>
+  </svg>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Write-Up</span>
+      <h2>About JW Global Crypto</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="reveal">
+        <p class="lead-text">We started JW Global Crypto with a simple complaint about the industry: most platforms ask you to trust a dashboard instead of trusting math.</p>
+        <p>Digital assets were supposed to remove the need for blind trust — that's the entire premise of a public ledger. Somewhere along the way, the industry rebuilt the old banking model on top of it: deposit your coins with us, trust our balance sheet, hope the audit is real.</p>
+        <p>JW Global Crypto is our attempt to do it differently from day one. We are a digital-asset advisory and portfolio-intelligence platform, not a custodian. When you connect a wallet here, you're not depositing anything — you're simply letting the page read what's already publicly visible on the blockchain and present it back to you clearly, in one place, without a browser extension full of jargon.</p>
+      </div>
+      <div class="reveal">
+        <p>We're a young firm. JW Global Crypto is currently a forming entity, working through the registrations and licensing that a serious advisory practice requires before it can responsibly manage client capital. We'd rather tell you that plainly than dress up a logo and a landing page as something we're not yet.</p>
+        <p>What we offer today is portfolio visibility and advisory groundwork: a clean, secure way to view your own holdings, and a team building toward licensed advisory services as those approvals come through. What we don't offer — yet, and not without a license — is custody, managed funds, or guaranteed returns. Anyone who tells you otherwise about a platform like ours isn't being straight with you, and neither would we be.</p>
+
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="num">0</div>
+            <div class="label">Client funds held in custody</div>
+          </div>
+          <div class="about-stat">
+            <div class="num">100%</div>
+            <div class="label">Self-custody, always your keys</div>
+          </div>
+          <div class="about-stat">
+            <div class="num">Forming</div>
+            <div class="label">Current regulatory status</div>
+          </div>
+          <div class="about-stat">
+            <div class="num">Read-only</div>
+            <div class="label">Wallet connection scope</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">What We Do</span>
+      <h2>Built around visibility, not custody</h2>
+      <p>Three things we focus on while we build toward full licensed advisory services.</p>
+    </div>
+
+    <div class="values-grid reveal">
+      <div class="value-card">
+        <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg>
+        <h3>Portfolio Intelligence</h3>
+        <p>Connect any major wallet and see your holdings, allocations, and historical performance laid out clearly — pulled directly from the public chain, never from a number we control.</p>
+      </div>
+      <div class="value-card">
+        <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4z"/></svg>
+        <h3>Security-First Architecture</h3>
+        <p>Read-only by design. We never request seed phrases, never request transaction signing for transfers, and never take possession of a private key. If a feature ever asked you for one, that wouldn't be us.</p>
+      </div>
+      <div class="value-card">
+        <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 19V5M4 19h16M8 15l3-4 3 3 4-6"/></svg>
+        <h3>Advisory in Progress</h3>
+        <p>Our team is building research, market commentary, and the licensing groundwork for managed advisory services. We'll tell you exactly when that's live, and exactly what it's regulated under.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="arc-divider" aria-hidden="true">
+  <svg viewBox="0 0 1400 640" fill="none">
+    <circle cx="700" cy="600" r="560" stroke="#c9a14a" stroke-opacity="0.18" stroke-width="1"/>
+  </svg>
+</div>
+
+<!-- ============ PORTFOLIO / WALLET ============ -->
+<section id="portfolio" class="ledger-section">
+  <div class="container" style="padding-top:120px; padding-bottom:120px;">
+    <div class="section-head reveal">
+      <span class="eyebrow">Your Holdings</span>
+      <h2>View your portfolio</h2>
+      <p>Connect a wallet to see your own balances. This reads public on-chain data only — we cannot move, freeze, or access your assets through this connection.</p>
+    </div>
+
+    <div class="ledger-plate reveal">
+      <div class="ledger-header">
+        <div>
+          <h3><span class="ring"></span>Portfolio Ledger</h3>
+          <p class="ledger-sub">Read-only view, refreshed from chain data</p>
+        </div>
+        <div class="wallet-status-badge" id="walletBadge">
+          <span class="dot"></span>
+          <span id="walletBadgeText">Not connected</span>
+        </div>
+      </div>
+
+      <div class="ledger-body">
+        <div class="connect-prompt" id="connectPrompt">
+          <div class="icon-ring">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9a14a" stroke-width="1.3"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="17" cy="15" r="1.2" fill="#c9a14a" stroke="none"/></svg>
+          </div>
+          <h4>No wallet connected</h4>
+          <p>Connect your wallet to view holdings, balances, and allocation across chains. Nothing is sent, deposited, or moved.</p>
+          <button class="btn-primary" id="openConnectModal">Connect Wallet</button>
+        </div>
+
+        <div class="holdings-table" id="holdingsTable">
+          <div class="holdings-row">
+            <div class="asset-icon">Ξ</div>
+            <div>
+              <div class="asset-name">Ethereum</div>
+              <div class="asset-ticker">ETH</div>
+            </div>
+            <div class="asset-amount mono" id="ethAmount">—</div>
+            <div class="asset-value mono" id="ethValue">—</div>
+          </div>
+          <div class="holdings-row">
+            <div class="asset-icon">₿</div>
+            <div>
+              <div class="asset-name">Bitcoin (wrapped)</div>
+              <div class="asset-ticker">WBTC</div>
+            </div>
+            <div class="asset-amount mono" id="btcAmount">—</div>
+            <div class="asset-value mono" id="btcValue">—</div>
+          </div>
+          <div class="holdings-row">
+            <div class="asset-icon">$</div>
+            <div>
+              <div class="asset-name">USD Coin</div>
+              <div class="asset-ticker">USDC</div>
+            </div>
+            <div class="asset-amount mono" id="usdcAmount">—</div>
+            <div class="asset-value mono" id="usdcValue">—</div>
+          </div>
+
+          <div class="wallet-address-display">
+            <span>Connected address: <span class="addr mono" id="walletAddrShort">—</span></span>
+            <button class="copy-btn" id="copyAddrBtn">Copy</button>
+          </div>
+        </div>
+
+        <div class="ledger-footnote">
+          <strong>What this connection can do:</strong> read your public address and display token balances already visible on-chain.
+          <strong>What it can never do:</strong> request your seed phrase, request a signature that moves funds, or give JW Global Crypto custody or control of your assets. Disconnect at any time from your wallet app.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECURITY ============ -->
+<section id="security">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Security Architecture</span>
+      <h2>The best security chain is the one that asks for nothing</h2>
+      <p>Here's exactly how the connection works, in plain terms — not marketing language.</p>
+    </div>
+
+    <div class="security-grid reveal">
+      <div class="security-item">
+        <div class="num">01</div>
+        <div>
+          <h4>Non-custodial by design</h4>
+          <p>Your private keys never leave your own wallet. We never see them, store them, or have a recovery path to them — because there is no path to build.</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="num">02</div>
+        <div>
+          <h4>Read-only connection scope</h4>
+          <p>The connection requests permission to view your public address and balances only. It does not request transaction-signing permissions for transfers.</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="num">03</div>
+        <div>
+          <h4>Open wallet standard</h4>
+          <p>We connect through WalletConnect, an open, widely audited protocol used across the industry — not a proprietary connector that only we control.</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="num">04</div>
+        <div>
+          <h4>Disconnect anytime, from either side</h4>
+          <p>You can revoke the connection from your wallet app at any moment with zero downstream effect on your funds, because we never had a claim on them.</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="num">05</div>
+        <div>
+          <h4>No password vault to breach</h4>
+          <p>There's no account password tied to your funds for an attacker to phish, because your funds were never tied to an account on our servers.</p>
+        </div>
+      </div>
+      <div class="security-item">
+        <div class="num">06</div>
+        <div>
+          <h4>Verify everything yourself</h4>
+          <p>Every balance shown here can be independently checked on a public block explorer. We'd rather you double-check us than take our word for it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="arc-divider" aria-hidden="true">
+  <svg viewBox="0 0 1400 640" fill="none">
+    <circle cx="700" cy="600" r="560" stroke="#c9a14a" stroke-opacity="0.18" stroke-width="1"/>
+  </svg>
+</div>
+
+<!-- ============ DISCLOSURE ============ -->
+<section>
+  <div class="container">
+    <div class="disclosure-banner reveal">
+      <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 9v4M12 17h.01M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.4 0z"/></svg>
+      <div>
+        <h4>Plain-language disclosure</h4>
+        <p>JW Global Crypto is a forming business and does not currently hold any financial services license or registration. Nothing on this site is investment advice, and no service offered here promises, implies, or guarantees any rate of return. The portfolio viewer displays publicly available on-chain data tied to a wallet you control — it does not constitute custody, management, or control of your assets by JW Global Crypto in any form. Digital assets are volatile and carry risk of total loss; only engage with amounts you can afford to lose, and consult an independent, licensed financial advisor before making investment decisions. Full legal terms will be published as our registration process completes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">How It Works</span>
+      <h2>Three steps, nothing hidden</h2>
+    </div>
+
+    <div class="process-list reveal">
+      <div class="process-row">
+        <div class="step-label">01 — Connect</div>
+        <div>
+          <h4>Connect your existing wallet</h4>
+          <p>Use MetaMask, Coinbase Wallet, Rainbow, or any WalletConnect-compatible wallet you already control. No new account, no email, no password.</p>
+        </div>
+      </div>
+      <div class="process-row">
+        <div class="step-label">02 — Review</div>
+        <div>
+          <h4>See your holdings laid out clearly</h4>
+          <p>Balances, tickers, and approximate values pulled from public chain data, displayed in one ledger view instead of scattered across apps.</p>
+        </div>
+      </div>
+      <div class="process-row">
+        <div class="step-label">03 — Decide</div>
+        <div>
+          <h4>Act on your own terms</h4>
+          <p>We don't move anything for you. Disconnect whenever you like, in your own wallet app, with your assets exactly where they started — under your control.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT / CTA ============ -->
+<section id="contact" class="cta-section">
+  <div class="container">
+    <span class="eyebrow reveal">Get In Touch</span>
+    <h2 class="reveal">Questions before you connect?<br>We'd rather you ask than assume.</h2>
+    <p class="reveal">We're a forming firm — happy to talk through exactly what we do, what we don't, and where we are in the licensing process.</p>
+    <a href="mailto:hello@jwglobalcrypto.com" class="btn-primary reveal">Email the Team</a>
+
+    <div class="contact-grid reveal">
+      <div class="contact-item">
+        <div class="label">Email</div>
+        <div class="value">hello@jwglobalcrypto.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="label">Status</div>
+        <div class="value">Forming entity, pre-licensing</div>
+      </div>
+      <div class="contact-item">
+        <div class="label">Response time</div>
+        <div class="value">Within 2 business days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo.png" alt="JW Global Crypto">
+        <span class="brand-text">JW Global<small>CRYPTO</small></span>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Site</h5>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#security">Security</a>
+        </div>
+        <div class="footer-col">
+          <h5>Status</h5>
+          <p>Forming entity</p>
+          <p>Non-custodial</p>
+          <p>Pre-licensing</p>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <a href="mailto:hello@jwglobalcrypto.com">hello@jwglobalcrypto.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2026 JW Global Crypto. JW Global Crypto is a forming entity and does not currently hold a financial services or money-transmission license in any jurisdiction. This site does not offer investment advice, managed accounts, or guaranteed returns. The wallet portfolio viewer is a read-only display of public blockchain data and does not constitute custody of any asset. Digital assets are volatile; you may lose some or all of your capital.</p>
+      <p>Always verify you are on the correct domain before connecting a wallet. JW Global Crypto will never ask for your seed phrase or private key, by email, chat, or on this site.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ WALLET CONNECT MODAL ============ -->
+<div class="modal-overlay" id="connectModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeModal" aria-label="Close">✕</button>
+    <h4>Connect a wallet</h4>
+    <p class="modal-sub">Read-only access to view your public balances. We will never ask you to sign a transfer or share a seed phrase.</p>
+
+    <div class="wallet-option" id="connectWalletConnect">
+      <div class="wi">WC</div>
+      <div class="wname">WalletConnect</div>
+    </div>
+    <div class="wallet-option" id="connectMetaMask">
+      <div class="wi">🦊</div>
+      <div class="wname">MetaMask</div>
+    </div>
+    <div class="wallet-option" id="connectCoinbase">
+      <div class="wi">CB</div>
+      <div class="wname">Coinbase Wallet</div>
+    </div>
+
+    <p class="modal-note">By connecting, you confirm you control this wallet. This grants view-only access to public balance data — no transaction-signing permission is requested.</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
